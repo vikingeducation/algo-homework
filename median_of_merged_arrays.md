@@ -55,3 +55,51 @@ medianOfMergedArrays(arrL, arrK);
 //=> 12
 
 ```
+
+##A Solution
+
+A recursive binary search strategy. Identify which half of each array might contain the median and do another search on that reduced data set.
+
+```
+var medianOfMergedArrays = function(arr1, arr2){
+  
+  var len = arr1.length;
+  
+  if (len === 1 ) {
+    return ( arr1[0] + arr2[0] ) / 2;
+  }
+  
+  if (len === 2 ) {
+    return (
+      ( Math.max(arr1[0], arr2[0]) +
+        Math.min(arr1[1], arr2[1]) )
+        / 2
+    );
+  }
+  
+  if ( median(arr1) === median(arr2) ) {
+    return median(arr2)
+  }
+
+  if (median(arr1) > median(arr2)) {
+  
+    var right2 = arr2.slice(len/2);
+    if ( len % 2 === 0 ) {
+      var left1 = arr1.slice(0, len/2);
+    } else {
+      var left1 = arr1.slice(0, len/2+1);
+    }
+    return medianOfMergedArrays(right2, left1);
+    
+  } else {
+    
+    var right1 = arr1.slice(len/2);
+    if ( len % 2 === 0 ) {
+      var left2 = arr2.slice(0, len/2);
+    } else {
+      var left2 = arr2.slice(0, len/2+1);
+    }
+    return medianOfMergedArrays(left2, right1);
+  }
+};
+```
